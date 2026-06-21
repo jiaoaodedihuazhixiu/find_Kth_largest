@@ -1,0 +1,40 @@
+int partition(vector<int>& vec, int left, int right)
+{
+	if (left >= right) return left;
+	int pivot = vec[left + (right - left) / 2];
+
+	int i = left;
+	int j = right;
+	while (i <= j)
+	{
+		while (vec[i] < pivot) i++;
+		while (vec[j] > pivot) j--;
+
+		if (i <= j)
+		{
+			swap(vec[i], vec[j]);
+			i++;
+			j--;
+		}
+	}
+
+	return i;
+}
+
+int quickSort(vector<int>& vec, int left, int right, int target)
+{
+	if (right == left) return vec[left];
+	int pos = partition(vec, left, right);
+
+	if (target < pos) return quickSort(vec, left, pos - 1, target);
+	else if (target > pos) return quickSort(vec, pos + 1, right, target);
+	else return vec[pos];
+}
+
+int getResult(vector<int>& vec, int k)
+{
+	int n = vec.size();
+	int target = n - k;
+	int result = quickSort(vec, 0, n - 1, target);
+	return result;
+}
